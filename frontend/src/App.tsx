@@ -16,6 +16,7 @@ const STAGES = [
 ]
 
 function App() {
+  const [showLiveNotice, setShowLiveNotice] = useState(() => window.location.hostname.endsWith('.vercel.app'))
   const [source, setSource] = useState('')
   const [scanId, setScanId] = useState<string | null>(null)
   const [scan, setScan] = useState<Scan | null>(null)
@@ -83,7 +84,17 @@ function App() {
     } catch (error) { setRequestError(error instanceof Error ? error.message : String(error)) }
   }
 
-  return <main className="breaksmith-shell">
+  return <>
+    {showLiveNotice && <div className="live-notice-backdrop" role="presentation">
+      <section className="live-notice-dialog" role="dialog" aria-modal="true" aria-labelledby="live-notice-title" aria-describedby="live-notice-copy">
+        <div className="live-notice-icon"><Bot size={20}/></div>
+        <p className="live-notice-kicker">LIVE UI PREVIEW</p>
+        <h2 id="live-notice-title">Running this on your own machine?</h2>
+        <p id="live-notice-copy">This is the live UI demo. To run scans and AI analysis, set up Ollama with the qwen3:4b model on your own laptop.</p>
+        <button type="button" onClick={() => setShowLiveNotice(false)}>Continue to the demo <ArrowRight size={15}/></button>
+      </section>
+    </div>}
+    <main className="breaksmith-shell">
     <section id="scan-console" className="breaksmith-console">
         <div className="console-heading"><div><p className="section-eyebrow">LIVE OPERATIONS</p><h2>Security scan console</h2><p>Run a repository through the real scanner and local model workflow.</p></div><span className={`state-badge ${scan?.state === 'FAILED' ? 'failed' : scan?.state === 'COMPLETE' ? 'done' : ''}`}><span className={`status-dot ${scan?.state === 'COMPLETE' ? 'is-online' : ''}`}/>{scan?.state ?? 'IDLE'}</span></div>
 
@@ -107,7 +118,8 @@ function App() {
             {selected.fix ? <div className="detail-section fix-section"><div className="detail-label">PROPOSED CODE REPLACEMENT <button className="copy-button" onClick={copyFix}>{copied ? <Check size={13}/> : <Copy size={13}/>} {copied ? 'COPIED' : 'COPY FIX'}</button></div><div className="diff-label before">− ORIGINAL</div><pre className="code-block diff-before"><code>{selected.fix.original_code}</code></pre><div className="diff-label after">+ SUGGESTED</div><pre className="code-block diff-after"><code>{selected.fix.corrected_code}</code></pre><p className="support-copy">{selected.fix.explanation}</p><p className="uncertainty">Confidence: {selected.fix.confidence} · Verify: {selected.fix.verification}</p><div className="read-only-note"><LockKeyhole size={14}/> Suggestion only. Review before changing source.</div></div> : scan?.state === 'COMPLETE' && <button className="investigate-button" onClick={investigate}><Sparkles size={15}/> Analyze & propose fix <ArrowRight size={15}/></button>}
             </div> : <div className="detail-empty"><div className="detail-empty-icon"><Shield size={27}/></div><strong>Select a finding</strong><p>Scanner evidence, local AI reasoning, and code repairs will appear here.</p></div>}</section></div>
       </section>
-  </main>
+    </main>
+  </>
 }
 
 function Metric({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) { return <div className="metric"><div className="metric-top"><span>{label}</span>{icon}</div><div className="metric-value">{value.toString().padStart(2, '0')}<span className="metric-slash">/</span></div></div> }

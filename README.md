@@ -159,3 +159,4 @@ docs/                    Design, architecture, API, and README artwork
 
 MIT licensed. Good next contributions include carefully scoped rules, stronger model-response validation, more language coverage, and better verification of suggested fixes.
 # BreakSmith-2.0
+# BreakSmith-2.0

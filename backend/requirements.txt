@@ -1,0 +1,7 @@
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+httpx==0.28.1
+semgrep==1.182.1
+# Semgrep's broad OpenTelemetry ranges otherwise trigger extensive pip backtracking.
+opentelemetry-instrumentation-threading==0.58b0
+opentelemetry-instrumentation-requests==0.58b0

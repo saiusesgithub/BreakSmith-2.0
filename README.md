@@ -10,6 +10,7 @@
   </p>
   <p>
     <a href="#how-it-works">Explore the workflow</a> ·
+    <a href="https://breaksmith.vercel.app/">Open the live UI preview</a> ·
     <a href="#run-it-locally">Run the demo</a> ·
     <a href="docs/DESIGN.md">See the design system</a> ·
     <a href="docs/API.md">Read the API</a>
@@ -21,6 +22,10 @@
 ![BreakSmith cinematic frontend showing its orbital background and opening headline](docs/assets/hero.png)
 
 > **One repository in. Evidence, reasoning, and a reviewable fix out.** BreakSmith scans real Python source with curated Semgrep rules, sends up to three findings to a locally installed Qwen3 4B model through Ollama, and displays a minimal suggested replacement. The original repository is never patched.
+
+## Live UI preview
+
+Explore the deployed interface at **[breaksmith.vercel.app](https://breaksmith.vercel.app/)**. This deployment hosts the frontend UI only; the scan API and local model are not hosted there. To run scans and AI analysis, set up the backend and install [Ollama](https://ollama.com/) with the qwen3:4b model on your own laptop, then follow the [local setup instructions](#run-it-locally). The live page displays this requirement when it opens.
 
 ## Why it exists
 

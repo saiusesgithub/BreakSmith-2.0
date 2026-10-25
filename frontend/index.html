@@ -1,0 +1,947 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BreakSmith 2.0 — Local AI Security Agent</title>
+<script src="/vendor/tailwind.js"></script>
+<script src="/vendor/iconify-icon.min.js"></script>
+<script src="/vendor/gsap.min.js"></script>
+<script src="/vendor/ScrollTrigger.min.js"></script>
+</head>
+<body class="bg-[#0a0a0c] text-[#f4f2ef] font-sans antialiased selection:bg-[#f5b8d0]/20 selection:text-white" style="margin:0; overflow-x:hidden;">
+<canvas aria-hidden="true" class="" data-engine="three.js r160" height="1792" id="particlesBg" style="position: fixed; inset: 0px; width: 1440px; height: 1024px; z-index: -1; pointer-events: none; display: block;" width="2520"></canvas>
+<!-- Top Nav -->
+<header class="" style="position:fixed; top:0; left:0; right:0; z-index:60; backdrop-filter:blur(12px); background:rgba(10,10,12,0.55); border-bottom:1px solid rgba(255,255,255,0.06);">
+<nav class="mx-auto flex items-center justify-between px-6 py-4 max-w-[77.5rem]">
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium tracking-tighter uppercase text-white">
+            BreakSmith 2.0
+          </span>
+</div>
+<div class="hidden md:flex items-center gap-8 text-sm text-[#b8b4ae]">
+<a class="hover:text-white transition-colors duration-300" href="#cinematic" style="will-change: transform; display: inline-flex;">
+            Workflow
+          </a>
+<a class="hover:text-white transition-colors duration-300" href="#collection" style="will-change: transform; display: inline-flex;">
+            Agents
+          </a>
+<a class="hover:text-white transition-colors duration-300" href="#craft" style="will-change: transform; display: inline-flex;">
+            How it works
+          </a>
+</div>
+<a class="text-sm font-normal px-4 py-1.5 rounded-full bg-[#ededed] text-[#1a1a1a] hover:bg-white transition-colors shadow-[inset_0_1px_0_rgba(255,255,255,0.8),_0_2px_4px_rgba(0,0,0,0.1)]" href="#scan-console" style="will-change: transform; display: inline-flex;">
+          Start Scan
+        </a>
+</nav>
+</header>
+<!-- CINEMATIC PINNED SECTION -->
+<section class="" id="cinematic" style="position: relative; height: 820vh">
+<div class="" id="pinStage" style="position: sticky; top: 0px; height: 100vh; width: 100%; overflow: hidden">
+<style class="">
+          @keyframes bouquetFloat {
+            0%   { transform: translateY(0); }
+            50%  { transform: translateY(-1.25rem); }
+            100% { transform: translateY(0); }
+          }
+          #bouquet {
+            animation: bouquetFloat 5s ease-in-out infinite;
+          }
+        </style>
+<!-- WebGL / Canvas petal layer -->
+<canvas class="" height="2048" id="petalCanvas" style="position:absolute; inset:0; width:100%; height:100%; z-index:5; opacity:0.85;" width="2880"></canvas>
+<!-- Parallax visual layers -->
+<div class="" id="visualWrap" style="position: absolute; inset: 0px; z-index: 1; will-change: transform;">
+<div class="" id="bgLayer" style="position: absolute; inset: -8%; background-size: cover; background-position: center center; filter: saturate(0.7) brightness(0.55); will-change: transform; overflow: hidden; isolation: isolate;"></div>
+<div class="" id="midLayer" style="position: absolute; inset: 0px; display: flex; align-items: center; justify-content: center; will-change: transform">
+<style class="">
+              @keyframes soft-float-aura-emrgurr6g15xfazn2 {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-24px); }
+              }
+              .anim-float-aura-emrgurr6g15xfazn2 {
+                animation: soft-float-aura-emrgurr6g15xfazn2 6s ease-in-out infinite;
+                will-change: transform;
+              }
+              @supports (animation-timeline: scroll()) {
+                @keyframes scroll-zoom-aura-emrgurr6g15xfazn2 {
+                  0% { transform: scale(1); }
+                  100% { transform: scale(1.4); }
+                }
+                .anim-scroll-aura-emrgurr6g15xfazn2 {
+                  animation: scroll-zoom-aura-emrgurr6g15xfazn2 linear forwards;
+                  animation-timeline: scroll();
+                  will-change: transform;
+                }
+              }
+            </style>
+<div class="anim-scroll-aura-emrgurr6g15xfazn2" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+<div class="anim-float-aura-emrgurr6g15xfazn2" style="display: flex; align-items: center; justify-content: center">
+<div class="z-40 relative" id="bouquet" style='width: min(56vw, 40rem); aspect-ratio: 16 / 11; background-image: url("/template-assets/visual-4.png"); background-size: contain; background-repeat: no-repeat; background-position: center center; will-change: transform; z-index: 40;'></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Color grade wash -->
+<div class="" id="gradeWash" style="position: absolute; inset: 0px; z-index: 6; pointer-events: none; background: radial-gradient(circle at 50% 45%, rgba(245, 184, 208, 0.1), rgba(10, 10, 12, 0.75) 70%); mix-blend-mode: screen;"></div>
+<!-- Letterbox bars -->
+<div class="" id="lbTop" style="position: absolute; top: 0px; left: 0px; right: 0px; height: 0.000314vh; background: rgb(0, 0, 0); z-index: 20; will-change: height;"></div>
+<div class="" id="lbBot" style="position: absolute; bottom: 0px; left: 0px; right: 0px; height: 0.000314vh; background: rgb(0, 0, 0); z-index: 20; will-change: height;"></div>
+<!-- Corner brackets frame -->
+<div class="" style="position: absolute; inset: 1.5rem; z-index: 30; pointer-events: none;">
+<span style="position:absolute; top:0; left:0; width:1.375rem; height:1.375rem; border-top:1px solid rgba(255,255,255,0.25); border-left:1px solid rgba(255,255,255,0.25);"></span>
+<span style="position:absolute; top:0; right:0; width:1.375rem; height:1.375rem; border-top:1px solid rgba(255,255,255,0.25); border-right:1px solid rgba(255,255,255,0.25);"></span>
+<span style="position:absolute; bottom:0; left:0; width:1.375rem; height:1.375rem; border-bottom:1px solid rgba(255,255,255,0.25); border-left:1px solid rgba(255,255,255,0.25);"></span>
+<span style="position:absolute; bottom:0; right:0; width:1.375rem; height:1.375rem; border-bottom:1px solid rgba(255,255,255,0.25); border-right:1px solid rgba(255,255,255,0.25);"></span>
+</div>
+<!-- Copy beats -->
+<div class="" style="position: absolute; inset: 0px; z-index: 40; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+<div class="beat flex flex-col items-center" data-beat="0" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<p class="text-xs uppercase" style="letter-spacing:0.35rem; color:#f5b8d0; margin-bottom:1rem;">
+              BreakSmith / 2.0
+            </p>
+<h1 class="tracking-tight" style="font-size:clamp(2.5rem,8vw,6rem); line-height:0.95; font-weight:500;">
+              Quiet Code,
+              <br/>
+              Hidden Signals
+            </h1>
+</div>
+<div class="beat flex flex-col items-center" data-beat="1" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<h2 class="tracking-tight" style="font-size:clamp(2.125rem,7vw,5rem); line-height:1; font-weight:500;">
+              Source Isolated
+            </h2>
+<p class="text-sm mt-4 text-[#c9c4bd]" style="max-width:27.5rem;">
+              A public GitHub repository or allowed local directory enters a disposable workspace.
+            </p>
+</div>
+<div class="beat flex flex-col items-center" data-beat="2" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<p class="text-xs uppercase" style="letter-spacing:0.3rem; color:#f5b8d0; margin-bottom:0.75rem;">
+              The Recon Agent
+            </p>
+<h2 class="tracking-tight" style="font-size:clamp(2.125rem,7vw,5rem); line-height:1; font-weight:500;">
+              Source Mapped
+            </h2>
+</div>
+<div class="beat flex flex-col items-center" data-beat="3" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<h2 class="tracking-tight" style="font-size:clamp(2.125rem,7vw,5rem); line-height:1; font-weight:500;">
+              Patterns Surface
+            </h2>
+<p class="text-sm mt-4 text-[#c9c4bd]" style="max-width:26.25rem;">
+              Curated Semgrep rules identify concrete evidence in Python source files.
+            </p>
+</div>
+<div class="beat flex flex-col items-center" data-beat="4" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<p class="text-xs uppercase" style="letter-spacing:0.3rem; color:#f5b8d0; margin-bottom:0.75rem;">
+              Local Analysis
+            </p>
+<h2 class="tracking-tight" style="font-size:clamp(2.125rem,7vw,5rem); line-height:1; font-weight:500;">
+              Reasoned Locally
+            </h2>
+</div>
+<div class="beat flex flex-col items-center" data-beat="5" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<h2 class="tracking-tight" style="font-size:clamp(2.125rem,7vw,5rem); line-height:1; font-weight:500;">
+              A Fix to Review
+            </h2>
+</div>
+<div class="beat flex flex-col items-center" data-beat="6" style="position:absolute; text-align:center; padding:0 1.5rem; opacity:0;">
+<p class="text-xs uppercase" style="letter-spacing:0.3rem; color:#f5b8d0; margin-bottom:0.75rem;">
+              Ready for Review
+            </p>
+<h2 class="tracking-tight uppercase" style="font-size:clamp(2.375rem,8vw,5.625rem); line-height:1; font-weight:500;">
+              BreakSmith 2.0
+            </h2>
+<p class="text-sm mt-4 text-[#c9c4bd]">
+              Run a scan to inspect findings, local analysis, and suggested code.
+            </p>
+</div>
+</div>
+<!-- Timeline HUD -->
+<div class="" style="position: absolute; left: 2rem; bottom: 3.5rem; z-index: 45; display: flex; align-items: center; gap: 1rem;">
+<div id="timelineTrack" style="width:11.25rem; height:0.1875rem; border-radius:0.1875rem; background:rgba(255,255,255,0.16); overflow:hidden;">
+<div id="timelineFill" style="height: 100%; width: 99.999641%; background: linear-gradient(90deg, rgb(245, 184, 208), rgb(194, 106, 151));"></div>
+</div>
+<span class="text-xs tabular-nums text-[#b8b4ae]" id="timeLabel">12.75s</span>
+</div>
+<!-- Timeline dots -->
+<div class="" id="dotRow" style="position: absolute; right: 2rem; bottom: 3.5rem; z-index: 45; display: flex; gap: 0.625rem;">
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span>
+<span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span><span style="width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(255, 255, 255, 0.25); transition: background 0.3s, transform 0.3s; cursor: pointer;"></span></div>
+</div>
+</section>
+<!-- COLLECTION SECTION -->
+<section class="mx-auto px-6 py-24 max-w-[77.5rem] relative overflow-hidden" id="collection">
+<div class="" style="position:absolute; inset:0; background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 9px); pointer-events:none;"></div>
+<div class="reveal-line overflow-hidden">
+<p class="text-xs uppercase text-[#f5b8d0]" style="letter-spacing:0.3rem;">
+          The Agents
+        </p>
+</div>
+<div class="reveal-line overflow-hidden mt-3">
+<h2 class="tracking-tight" data-scroll-word="true" style="font-size:clamp(1.875rem,5vw,3.5rem); font-weight:500; line-height:1.05;">
+          Three roles. One source-to-fix workflow.
+        </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 gap-x-6 gap-y-6">
+<!-- Card 1 -->
+<div class="fade-card group flex flex-col border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-500 cursor-pointer border rounded-2xl pt-5 pr-5 pb-5 pl-5 backdrop-blur-lg" style=" transform-style: preserve-3d;">
+<div class="rounded-xl overflow-hidden mb-5" style="aspect-ratio:4/5; background-image:url('/template-assets/visual-2.png'); background-size:cover; background-position:center;"></div>
+<div class="flex flex-col flex-grow justify-between" style=" transition: transform 0.5s ease-out;">
+<div class="">
+<h3 class="text-base font-medium tracking-tight group-hover:text-white transition-colors text-[#e8e6e3]">
+                Recon Agent
+              </h3>
+<p class="text-sm mt-1.5 text-[#9c988f]">
+                Copies and inventories supported source files in an isolated workspace.
+              </p>
+</div>
+<p class="text-sm mt-4 font-normal text-[#f5b8d0]">01 / SOURCE</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="fade-card group flex flex-col border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-500 cursor-pointer border rounded-2xl pt-5 pr-5 pb-5 pl-5 backdrop-blur-lg" style=" transform-style: preserve-3d;">
+<div class="rounded-xl overflow-hidden mb-5" style="aspect-ratio:4/5; background-image:url('/template-assets/visual-5.png'); background-size:cover; background-position:center;"></div>
+<div class="flex flex-col flex-grow justify-between" style=" transition: transform 0.5s ease-out;">
+<div class="">
+<h3 class="text-base font-medium tracking-tight group-hover:text-white transition-colors text-[#e8e6e3]">
+                Security Analyst
+              </h3>
+<p class="text-sm mt-1.5 text-[#9c988f]">
+                Semgrep finds evidence; local Qwen3 explains selected security findings.
+              </p>
+</div>
+<p class="text-sm mt-4 font-normal text-[#f5b8d0]">02 / ANALYZE</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="fade-card group flex flex-col border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-500 cursor-pointer border rounded-2xl pt-5 pr-5 pb-5 pl-5 backdrop-blur-lg" style=" transform-style: preserve-3d;">
+<div class="rounded-xl overflow-hidden mb-5" style="aspect-ratio:4/5; background-image:url('/template-assets/visual-1.png'); background-size:cover; background-position:center;"></div>
+<div class="flex flex-col flex-grow justify-between" style=" transition: transform 0.1s ease-out;">
+<div class="">
+<h3 class="text-base font-medium tracking-tight group-hover:text-white transition-colors text-[#e8e6e3]">
+                Remediation Agent
+              </h3>
+<p class="text-sm mt-1.5 text-[#9c988f]">
+                Proposes a minimal replacement for a finding, ready for human review.
+              </p>
+</div>
+<p class="text-sm mt-4 font-normal text-[#f5b8d0]">03 / REPAIR</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CRAFT PARALLAX STRIP -->
+<section class="relative overflow-hidden flex items-center" id="craft" style="height:70vh;">
+<div class="absolute inset-[-15%] bg-cover bg-center will-change-transform" id="craftBg" style="background-image:url('/template-assets/visual-3.png'); filter:brightness(0.35) saturate(0.8);"></div>
+<div class="mx-auto px-6 max-w-[77.5rem] relative z-10">
+<div class="reveal-line overflow-hidden">
+<h2 class="tracking-tight text-white" style="font-size:clamp(1.75rem,5vw,3.25rem); font-weight:500; max-width:40rem; line-height:1.1;">
+            Every finding begins with source evidence you can inspect.
+          </h2>
+</div>
+<a class="inline-flex items-center gap-2 mt-8 text-sm font-medium px-5 py-2.5 rounded-full bg-white/10 border border-white/10 text-white hover:bg-white/20 transition-colors backdrop-blur-md" href="#scan-console" style="will-change: transform; display: inline-flex;">
+          Explore the scan console
+          <iconify-icon icon="solar:arrow-right-linear" width="1rem"></iconify-icon>
+</a>
+</div>
+</section>
+<section class="mx-auto px-6 py-24 max-w-[77.5rem] relative" id="integration">
+<div class="reveal-line overflow-hidden">
+<p class="text-xs uppercase text-[#f5b8d0]" style="letter-spacing:0.3rem;">
+          Local stack
+        </p>
+</div>
+<div class="reveal-line overflow-hidden mt-3">
+<h2 class="tracking-tight" style="font-size:clamp(1.875rem,5vw,3.5rem); font-weight:500; line-height:1.05;">
+          Built around tools you can inspect
+        </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14">
+<div class="fade-card flex flex-col border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-500 bg-neutral-900 border rounded-2xl px-10 py-10" style=" transform-style: preserve-3d;">
+<iconify-icon class="text-[#f5b8d0] mb-6" icon="solar:server-square-linear" width="2.5rem"></iconify-icon>
+<h3 class="text-xl font-medium tracking-tight text-[#e8e6e3] mb-2">
+            Semgrep Scanner
+          </h3>
+<p class="text-sm text-[#9c988f]">
+            Curated rules report file, line, severity, rule ID, and matching Python code.
+          </p>
+</div>
+<div class="fade-card flex flex-col border-white/[0.06] hover:bg-white/[0.04] transition-colors duration-500 bg-neutral-900 border rounded-2xl px-10 py-10" style=" transform-style: preserve-3d;">
+<iconify-icon class="text-[#f5b8d0] mb-6" icon="solar:cloud-network-linear" width="2.5rem"></iconify-icon>
+<h3 class="text-xl font-medium tracking-tight text-[#e8e6e3] mb-2">
+            Qwen3 via Ollama
+          </h3>
+<p class="text-sm text-[#9c988f]">
+            Local model calls analyze scanner evidence and suggest a replacement when available.
+          </p>
+</div>
+</div>
+</section>
+<section class="" id="noema-manifesto" style="position:relative; min-height:100vh; background:#f4efe7; color:#050505; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:6rem 1.25rem; font-family:'Inter',sans-serif;">
+<div class="" style="position:absolute; inset:0; background:radial-gradient(circle at 20% 30%, rgba(79,70,229,0.24), transparent 32%), radial-gradient(circle at 80% 72%, rgba(244,63,94,0.22), transparent 30%);"></div>
+<div class="" style="position:relative; z-index:10; max-width:min(1180px,92vw); display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:0.18em 0.28em; text-align:center;">
+<span class="" style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          Everything
+        </span>
+<span style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          your
+        </span>
+<span class="" style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          security
+        </span>
+<span class="" style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          workflow
+        </span>
+<span style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          needs,
+        </span>
+<span class="" style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          grounded
+        </span>
+<span style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          in
+        </span>
+<span style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          real
+        </span>
+<span style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          source
+        </span>
+<span style="display:inline-block; font-weight:800; font-size:clamp(2.4rem,7.8vw,7.4rem); line-height:0.9; letter-spacing:-0.045em; text-transform:uppercase;">
+          evidence.
+        </span>
+</div>
+<p class="" style="position:absolute; left:1.25rem; bottom:1.25rem; z-index:10; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:700; color:rgba(0,0,0,0.6);">
+        04 / Architecture
+      </p>
+</section>
+<section class="" id="noema-board" style="position:relative; min-height:100vh;  color:#050505; overflow:hidden; padding:7rem 1.25rem 4rem; display:flex; align-items:center; font-family:'Inter',sans-serif">
+<h2 class="" style="position:absolute; z-index:0; color:rgba(0,0,0,0.18); font-weight:800; font-size:clamp(8rem,28vw,30rem); line-height:0.78; letter-spacing:-0.055em; white-space:nowrap; left:50%; top:50%; transform:translate(-50%,-50%);">
+        SIGNALS
+      </h2>
+<div class="" style="position:relative; z-index:10; width:100%; max-width:72rem; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:0.75rem;">
+<article class="" style="min-height:158px; border:1px solid rgba(255,255,255,0.2); background:#050505; color:white; padding:1rem; display:flex; flex-direction:column; justify-content:space-between;">
+<div class="">
+<p class="" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.18em; color:rgba(255,255,255,0.45);">
+              Model
+            </p>
+<h3 class="" style="font-weight:800; font-size:1.875rem; line-height:1; margin-top:0.75rem;">
+              Qwen3 4B:
+              <br/>
+              Local
+            </h3>
+</div>
+<div class="" style="display:flex; align-items:flex-end; justify-content:space-between; font-size:0.75rem; color:rgba(255,255,255,0.58);">
+<span class="">
+              Ollama
+              <br/>
+              On your machine
+            </span>
+</div>
+</article>
+<article class="" style="min-height:158px; border:1px solid rgba(255,255,255,0.2); background:#050505; color:white; padding:1rem; display:flex; flex-direction:column; justify-content:space-between;">
+<div>
+<p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.18em; color:rgba(255,255,255,0.45);">
+              Scanner
+            </p>
+<h3 style="font-weight:800; font-size:1.875rem; line-height:1; margin-top:0.75rem;">
+              Semgrep
+              <br/>
+              Rules
+            </h3>
+</div>
+<div style="display:flex; align-items:flex-end; justify-content:space-between; font-size:0.75rem; color:rgba(255,255,255,0.58);">
+<span>
+              Python
+              <br/>
+              Curated checks
+            </span>
+</div>
+</article>
+<article class="" style="min-height:158px; border:1px solid rgba(255,255,255,0.2); background:#050505; color:white; padding:1rem; display:flex; flex-direction:column; justify-content:space-between;">
+<div class="">
+<p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.18em; color:rgba(255,255,255,0.45);">
+              Evidence
+            </p>
+<h3 class="" style="font-weight:800; font-size:1.875rem; line-height:1; margin-top:0.75rem;">
+              Source Lines
+              <br/>
+              In Context
+            </h3>
+</div>
+<div class="" style="display:flex; align-items:flex-end; justify-content:space-between; font-size:0.75rem; color:rgba(255,255,255,0.58);">
+<span class="">
+              Per finding
+              <br/>
+              Reviewable
+            </span>
+</div>
+</article>
+<article style="min-height:158px; border:1px solid rgba(0,0,0,0.2); background:#F43F5E; color:#050505; padding:1rem; display:flex; flex-direction:column; justify-content:space-between;">
+<div>
+<p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.18em; color:rgba(0,0,0,0.55);">
+              Security
+            </p>
+<h3 style="font-weight:800; font-size:1.875rem; line-height:1; margin-top:0.75rem;">
+              Human
+              <br/>
+              Review
+            </h3>
+</div>
+<div style="display:flex; align-items:flex-end; justify-content:space-between; font-size:0.75rem; color:rgba(0,0,0,0.65);">
+<span>
+              Read only
+              <br/>
+              No auto patch
+            </span>
+</div>
+</article>
+</div>
+</section>
+<section class="" id="noema-support" style="position:relative; min-height:100vh; background:#000000; color:white; overflow:hidden; padding:0 1.25rem; display:flex; align-items:center; font-family:'Inter',sans-serif">
+<h2 class="" style="position:absolute; z-index:0; color:rgba(0,0,0,0.35); font-weight:800; font-size:clamp(8rem,28vw,30rem); line-height:0.78; letter-spacing:-0.055em; white-space:nowrap; left:50%; top:46%; transform:translate(-50%,-50%);">
+    WORKFLOW
+  </h2>
+<div class="" style="position: relative; z-index: 10; width: 100%; max-width: 72rem; margin: 0px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; padding: 5rem 0px;">
+<article class="" style="border:1px solid rgba(255,255,255,0.28); background:#050505; color:white; min-height:310px; padding:1.25rem;">
+<p class="" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(255,255,255,0.45);">
+        01 / Recon
+      </p>
+<h3 class="" style="font-weight:700; font-size:clamp(3rem,5vw,3.75rem); line-height:1; margin-top:1.5rem; letter-spacing:-0.025em;">
+        ISOLATED
+      </h3>
+<p class="" style="font-size:0.875rem; color:rgba(255,255,255,0.58); margin-top:1.5rem; max-width:220px;">
+        Source files are copied into a temporary workspace before scanning.
+      </p>
+</article>
+<article class="" style="border:1px solid rgba(0,0,0,0.1); background:white; color:#050505; min-height:310px; padding:1.25rem;">
+<p class="" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(0,0,0,0.45);">
+        02 / Analysis
+      </p>
+<h3 class="" style="font-weight:700; font-size:clamp(3rem,5vw,3.75rem); line-height:1; margin-top:1.5rem; letter-spacing:-0.025em;">
+        ANALYZED
+      </h3>
+<a href="#scan-console" style="margin-top: 2rem; width: 100%; background: rgb(5, 5, 5); color: white; font-size: 0.875rem; font-weight: 500; padding: 0.75rem; border: medium; border-radius: 9999px; cursor: pointer; will-change: transform; display: inline-flex; align-items: center; justify-content: center;">
+            View Scan Console
+          </a>
+</article>
+<article class="" style="border:1px solid rgba(255,255,255,0.28); background:#050505; color:white; min-height:310px; padding:1.25rem;">
+<p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(255,255,255,0.45);">
+        03 / Review
+      </p>
+<h3 class="" style="font-weight:700; font-size:clamp(3rem,5vw,3.75rem); line-height:1; margin-top:1.5rem; letter-spacing:-0.025em;">
+        PROPOSED
+      </h3>
+<p style="font-size:0.875rem; color:rgba(255,255,255,0.58); margin-top:1.5rem; max-width:220px;">
+        Suggested replacements stay visible for review. Original source is never changed.
+      </p>
+</article>
+</div>
+</section>
+<!-- FOOTER -->
+<div id="root"></div>
+<footer class="mx-auto px-6 py-16 max-w-[77.5rem] border-t border-white/[0.06]">
+<div class="flex flex-col md:flex-row justify-between gap-10">
+<div class="">
+<span class="text-sm font-medium tracking-tighter uppercase text-white">
+            BreakSmith 2.0
+          </span>
+<p class="text-sm mt-4 text-[#7d7a73]" style="max-width:17.5rem;">
+            Local-first security scans with real evidence and reviewable fixes.
+          </p>
+</div>
+<div class="flex gap-16 text-sm text-[#9c988f]">
+<div class="flex flex-col gap-3">
+<a class="hover:text-white transition-colors" href="#scan-console" style="will-change: transform; display: inline-flex;">Start Scan</a>
+<a class="hover:text-white transition-colors" href="#cinematic" style="will-change: transform; display: inline-flex;">Workflow</a>
+<a class="hover:text-white transition-colors" href="#integration" style="will-change: transform; display: inline-flex;">
+              Local Stack
+            </a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="hover:text-white transition-colors" href="#craft" style="will-change: transform; display: inline-flex;">
+              Project Guide
+            </a>
+<a class="hover:text-white transition-colors" href="#scan-console" style="will-change: transform; display: inline-flex;">Demo</a>
+<a class="hover:text-white transition-colors" href="#scan-console" style="will-change: transform; display: inline-flex;">Scan Console</a>
+</div>
+</div>
+</div>
+<div class="mt-16 flex items-center justify-between">
+<p class="text-xs text-[#5c5a55]">
+          BreakSmith 2.0 / Local AI security workflow
+        </p>
+</div>
+</footer>
+<script class="">
+      (function(){
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* WebGL / Canvas petal field with graceful fallback */
+        const canvas = document.getElementById('petalCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, petals = [];
+
+        function resize(){
+          W = canvas.width = innerWidth * devicePixelRatio;
+          H = canvas.height = innerHeight * devicePixelRatio;
+        }
+
+        resize();
+        addEventListener('resize', resize);
+
+        for(let i=0; i<70; i++){
+          petals.push({
+            x: Math.random(),
+            y: Math.random(),
+            r: 6 + Math.random() * 14,
+            sp: 0.2 + Math.random() * 0.8,
+            drift: Math.random() * Math.PI * 2,
+            a: 0.3 + Math.random() * 0.5
+          });
+        }
+
+        let petalDensity = 0, windAmt = 0;
+
+        function drawPetals(t){
+          ctx.clearRect(0, 0, W, H);
+          for(const p of petals){
+            const px = (p.x + Math.sin(t*0.0003*p.sp + p.drift)*0.04*(0.5+windAmt*2)) * W;
+            const py = (((p.y + t*0.00004*p.sp) % 1)) * H;
+            const size = p.r * devicePixelRatio * (0.7 + petalDensity*0.8);
+
+            ctx.globalAlpha = p.a * petalDensity;
+            const g = ctx.createRadialGradient(px, py, 0, px, py, size);
+            g.addColorStop(0, 'rgba(247,196,218,0.9)');
+            g.addColorStop(1, 'rgba(194,106,151,0)');
+
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.ellipse(px, py, size, size*0.6, p.drift + t*0.0002, 0, Math.PI*2);
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          requestAnimationFrame(drawPetals);
+        }
+
+        if(!reduce) requestAnimationFrame(drawPetals);
+
+        /* Deterministic beat windows */
+        const beats = [
+          {el: document.querySelector('[data-beat="0"]'), s: 0.00, e: 0.10},
+          {el: document.querySelector('[data-beat="1"]'), s: 0.11, e: 0.22},
+          {el: document.querySelector('[data-beat="2"]'), s: 0.23, e: 0.33},
+          {el: document.querySelector('[data-beat="3"]'), s: 0.34, e: 0.47},
+          {el: document.querySelector('[data-beat="4"]'), s: 0.48, e: 0.64},
+          {el: document.querySelector('[data-beat="5"]'), s: 0.65, e: 0.81},
+          {el: document.querySelector('[data-beat="6"]'), s: 0.82, e: 1.00}
+        ];
+
+        function beatOpacity(p, s, e){
+          const mid = (s+e)/2, span = (e-s);
+          const fade = span*0.30;
+          if(p < s || p > e) return 0;
+          if(s === 0 && p <= s+fade) return 1;
+          if(p < s+fade) return (p-s)/fade;
+          if(p > e-fade) return (e-p)/fade;
+          return 1;
+        }
+
+        /* Timeline dots */
+        const dotRow = document.getElementById('dotRow');
+        dotRow.replaceChildren();
+        beats.forEach((b,i)=>{
+          const d = document.createElement('span');
+          d.style.cssText = 'width:0.5rem;height:0.5rem;border-radius:50%;background:rgba(255,255,255,0.25);transition:background .3s,transform .3s;cursor:pointer;';
+          d.addEventListener('click',()=>{
+            const sec = document.getElementById('cinematic');
+            const top = sec.offsetTop + ((b.s+b.e)/2) * (sec.offsetHeight - innerHeight);
+            scrollTo({top, behavior:'smooth'});
+          });
+          dotRow.appendChild(d);
+          b.dot = d;
+        });
+
+        /* Velocity-aware render progress */
+        const section = document.getElementById('cinematic');
+        const bgLayer = document.getElementById('bgLayer');
+        const midLayer = document.getElementById('midLayer');
+        const bouquet = document.getElementById('bouquet');
+        const grade = document.getElementById('gradeWash');
+        const lbTop = document.getElementById('lbTop');
+        const lbBot = document.getElementById('lbBot');
+        const tlFill = document.getElementById('timelineFill');
+        const timeLabel = document.getElementById('timeLabel');
+        const DUR = 12.75;
+
+        let rawP = 0, renderP = 0;
+
+        function raf(){
+          renderP += (rawP - renderP) * 0.10;
+          const p = renderP;
+
+          const scale = 1 + p*0.55 - Math.max(0, p-0.48)*0.35;
+          const roll = p*4 - Math.max(0, p-0.65)*3;
+          const fwd = p*-40;
+
+          bouquet.style.transform = `scale(${scale}) rotate(${roll}deg) translateY(${fwd}px)`;
+          bgLayer.style.transform = `scale(${1.1+p*0.15}) translateY(${p*-60}px)`;
+          midLayer.style.transform = `translateY(${p*30}px)`;
+
+          petalDensity = p < 0.48 ? p*0.3 : Math.min(1, (p-0.40)*2.2);
+          windAmt = Math.max(0, (p-0.60))*1.4;
+
+          grade.style.opacity = 0.4 + Math.sin(p*Math.PI)*0.5;
+
+          let lb = 0;
+          if(p < 0.06) lb = (p/0.06)*7;
+          else if(p > 0.92) lb = 7 * (1-(p-0.92)/0.08);
+          else lb = 7;
+
+          lbTop.style.height = lb+'vh';
+          lbBot.style.height = lb+'vh';
+
+          tlFill.style.width = (p*100)+'%';
+          timeLabel.textContent = (p*DUR).toFixed(2)+'s';
+
+          beats.forEach(b=>{
+            const o = beatOpacity(p, b.s, b.e);
+            b.el.style.opacity = o.toFixed(3);
+            b.el.style.transform = `translateY(${(1-o)*18}px)`;
+            const active = p >= b.s && p <= b.e;
+            b.dot.style.background = active ? '#f5b8d0' : 'rgba(255,255,255,0.25)';
+            b.dot.style.transform = active ? 'scale(1.4)' : 'scale(1)';
+          });
+
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        function updateScroll(){
+          const rect = section.getBoundingClientRect();
+          const travel = section.offsetHeight - innerHeight;
+          const scrolled = Math.min(Math.max(-rect.top, 0), travel);
+          rawP = travel > 0 ? scrolled/travel : 0;
+          if(reduce) renderP = rawP;
+        }
+
+        addEventListener('scroll', updateScroll, {passive: true});
+        updateScroll();
+
+        /* GSAP masked staggered reveals */
+        if(window.gsap && window.ScrollTrigger && !reduce){
+          gsap.registerPlugin(ScrollTrigger);
+
+          document.querySelectorAll('.reveal-line').forEach(line=>{
+            const inner = line.firstElementChild;
+            gsap.set(inner, {yPercent: 120});
+            gsap.to(inner, {
+              yPercent: 0,
+              duration: 0.9,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: line,
+                start: 'top 85%'
+              }
+            });
+          });
+
+          gsap.utils.toArray('.fade-card').forEach((c, i)=>{
+            gsap.from(c, {
+              opacity: 0,
+              y: 40,
+              duration: 0.7,
+              ease: 'power2.out',
+              delay: i*0.1,
+              scrollTrigger: {
+                trigger: c,
+                start: 'top 88%'
+              }
+            });
+          });
+
+          gsap.to('#craftBg', {
+            yPercent: 20,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#craft',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        }
+      })();
+    </script>
+<script data-aura-video-controller="true">
+      (function () {
+        function playVideo(video) {
+          var promise = video.play();
+          if (promise && typeof promise.catch === "function") {
+            promise.catch(function () {});
+          }
+        }
+
+        function setupVideo(video) {
+          if (video.__auraVideoReady === true) return;
+          video.__auraVideoReady = true;
+          video.removeAttribute("data-aura-video-ready");
+          video.removeAttribute("data-aura-video-played");
+          video.muted = true;
+          video.playsInline = true;
+
+          var preset = video.dataset.auraVideoPreset || "loop-in-view";
+          if (preset === "hover") {
+            video.addEventListener("mouseenter", function () {
+              playVideo(video);
+            });
+            video.addEventListener("mouseleave", function () {
+              video.pause();
+              video.currentTime = 0;
+            });
+            return;
+          }
+
+          if (!("IntersectionObserver" in window)) {
+            playVideo(video);
+            return;
+          }
+
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                if (preset === "play-once" && video.__auraVideoPlayed === true) {
+                  return;
+                }
+                playVideo(video);
+              } else {
+                video.pause();
+              }
+            });
+          }, { threshold: 0.35 });
+
+          if (preset === "play-once") {
+            video.addEventListener("ended", function () {
+              video.__auraVideoPlayed = true;
+            }, { once: true });
+          }
+
+          observer.observe(video);
+        }
+
+        function setupVideos() {
+          document
+            .querySelectorAll("video[data-aura-video-preset]")
+            .forEach(setupVideo);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", setupVideos);
+        } else {
+          setupVideos();
+        }
+      })();
+    </script>
+<script type="module">
+      import * as THREE from 'three';
+      import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+      import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+      import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = matchMedia('(max-width: 768px)').matches;
+      const canvas = document.getElementById('particlesBg');
+      if (canvas) {
+      const COUNT = isMobile ? 4000 : 12000;
+      const rand = Math.random, gauss = () => (rand() + rand() + rand() - 1.5) * 0.8;
+      const posArr = new Float32Array(COUNT * 3), ringId = new Float32Array(COUNT), seeds = new Float32Array(COUNT), scales = new Float32Array(COUNT);
+      const rings = [{ r: 6.4, tx: -0.5, tz: 0 }, { r: 5.3, tx: 0.9, tz: 0.7 }, { r: 4.2, tx: 0.25, tz: -1.1 }];
+      for (let i = 0; i < COUNT; i++) {
+      const i3 = i * 3, pick = rand();
+      seeds[i] = rand(); scales[i] = seeds[i] > 0.985 ? 2.4 : 0.5 + rand() * 0.9;
+      if (pick < 0.12) { ringId[i] = 4; let x = gauss(), y = gauss(), z = gauss(); const n = Math.hypot(x, y, z) || 1, r = 7.5 + rand() * 5.5; posArr[i3] = x / n * r; posArr[i3 + 1] = y / n * r; posArr[i3 + 2] = z / n * r; continue; }
+      if (pick < 0.24) { ringId[i] = 3; let x = gauss(), y = gauss(), z = gauss(); const n = Math.hypot(x, y, z) || 1, r = 1.7 * Math.cbrt(rand()); posArr[i3] = x / n * r; posArr[i3 + 1] = y / n * r; posArr[i3 + 2] = z / n * r; continue; }
+      ringId[i] = i % 3; const ring = rings[i % 3], ang = rand() * Math.PI * 2;
+      const x = Math.cos(ang) * ring.r + gauss() * 0.07, y = gauss() * 0.07, z = Math.sin(ang) * ring.r + gauss() * 0.07;
+      let y2 = y * Math.cos(ring.tx) - z * Math.sin(ring.tx); const z2 = y * Math.sin(ring.tx) + z * Math.cos(ring.tx);
+      const x2 = x * Math.cos(ring.tz) - y2 * Math.sin(ring.tz); y2 = x * Math.sin(ring.tz) + y2 * Math.cos(ring.tz);
+      posArr[i3] = x2; posArr[i3 + 1] = y2; posArr[i3 + 2] = z2;
+      }
+      const SNOISE = `
+      vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
+      vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
+      vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}
+      vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+      float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);vec3 x1=x0-i1+C.xxx;vec3 x2=x0-i2+C.yyy;vec3 x3=x0-D.yyy;i=mod289(i);vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));float n_=0.142857142857;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.0-abs(x)-abs(y);vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
+      const VERT = `attribute float aSeed;attribute float aScale;attribute float aRing;uniform float uTime;uniform float uSize;uniform float uPixelRatio;uniform vec3 uColor;uniform vec3 uCore;uniform vec3 uRing0;uniform vec3 uRing1;uniform vec3 uRing2;varying vec3 vColor;varying float vTwinkle;` + SNOISE + `
+      void main(){
+      vec3 pos=position;
+      if(aRing<2.5){vec3 ax=aRing<0.5?normalize(vec3(1.0,0.18,0.0)):aRing<1.5?normalize(vec3(0.0,1.0,0.22)):normalize(vec3(0.25,0.0,1.0));float ang=uTime*(aRing<0.5?0.24:aRing<1.5?-0.38:0.55);float c=cos(ang),s=sin(ang);pos=pos*c+cross(ax,pos)*s+ax*dot(ax,pos)*(1.0-c);}
+      vec3 np=pos*0.2+vec3(uTime*0.18)+aSeed*6.28;
+      pos+=vec3(snoise(np),snoise(np+31.7),snoise(np+74.3))*0.13;
+      pos.x+=sin(uTime*0.9+aSeed*40.0)*0.05;
+      pos.y+=cos(uTime*0.7+aSeed*30.0)*0.05;
+      vColor=uColor;
+      if(aRing<2.5){vColor=aRing<0.5?uRing0:aRing<1.5?uRing1:uRing2;}
+      vColor=mix(vColor,uCore,smoothstep(2.5,1.4,length(pos)));
+      vColor=mix(vColor,vec3(1.0),step(0.985,aSeed)*0.9);
+      vTwinkle=0.6+0.4*sin(uTime*(0.6+aSeed*1.8)+aSeed*20.0);
+      vec4 mv=modelViewMatrix*vec4(pos,1.0);
+      gl_PointSize=uSize*aScale*uPixelRatio*(12.0/-mv.z);
+      gl_Position=projectionMatrix*mv;
+      }`;
+      const FRAG = `precision mediump float;uniform float uOpacity;varying vec3 vColor;varying float vTwinkle;
+      void main(){float d=length(gl_PointCoord-0.5);float alpha=smoothstep(0.5,0.12,d);alpha+=smoothstep(0.12,0.0,d)*0.5;gl_FragColor=vec4(vColor,alpha*vTwinkle*uOpacity);}`;
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
+      const pr = Math.min(devicePixelRatio, isMobile ? 1.25 : 1.75);
+      renderer.setPixelRatio(pr);
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('#0a0a0c');
+      const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+      camera.position.z = 14.5;
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+      geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
+      geo.setAttribute('aScale', new THREE.BufferAttribute(scales, 1));
+      geo.setAttribute('aRing', new THREE.BufferAttribute(ringId, 1));
+      const uniforms = { uTime: { value: 0 }, uSize: { value: 3.0 }, uPixelRatio: { value: pr }, uOpacity: { value: 0.8 }, uColor: { value: new THREE.Color('#f5b8d0') }, uCore: { value: new THREE.Color('#ffd9e8') }, uRing0: { value: new THREE.Color('#c26a97') }, uRing1: { value: new THREE.Color('#f5b8d0') }, uRing2: { value: new THREE.Color('#ffe3ef') } };
+      const mat = new THREE.ShaderMaterial({ uniforms, vertexShader: VERT, fragmentShader: FRAG, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+      const group = new THREE.Group();
+      group.add(new THREE.Points(geo, mat));
+      scene.add(group);
+      let composer = null;
+      if (!isMobile && !reduced) {
+      composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.55, 0.12));
+      }
+      let mx = 0, my = 0, tmx = 0, tmy = 0;
+      addEventListener('pointermove', (e) => { tmx = e.clientX / innerWidth - 0.5; tmy = e.clientY / innerHeight - 0.5; });
+      const clock = new THREE.Clock();
+      function frame() {
+      const t = clock.getElapsedTime();
+      uniforms.uTime.value = t;
+      mx += (tmx - mx) * 0.04;
+      my += (tmy - my) * 0.04;
+      group.rotation.y = mx * 0.35 + t * 0.06 + Math.sin(t * 0.07) * 0.06;
+      group.rotation.x = my * 0.22 + Math.sin(t * 0.23) * 0.1;
+      composer ? composer.render() : renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+      }
+      if (reduced) { uniforms.uTime.value = 1; renderer.render(scene, camera); } else { requestAnimationFrame(frame); }
+      addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+      composer && composer.setSize(innerWidth, innerHeight);
+      });
+      }
+    </script>
+<script>
+      (function() {
+        const cards = document.querySelectorAll('.fade-card');
+        cards.forEach(card => {
+          card.style.transformStyle = 'preserve-3d';
+          const img = card.querySelector('.rounded-xl');
+          const content = card.querySelector('.flex-grow');
+
+          card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            card.style.transition = 'transform 0.1s ease-out';
+            card.style.zIndex = '10';
+
+            if (img) {
+              img.style.transform = 'translateZ(30px)';
+              img.style.transition = 'transform 0.1s ease-out';
+            }
+            if (content) {
+              content.style.transform = 'translateZ(20px)';
+              content.style.transition = 'transform 0.1s ease-out';
+            }
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            card.style.transition = 'transform 0.5s ease-out';
+            card.style.zIndex = '1';
+
+            if (img) {
+              img.style.transform = 'translateZ(0px)';
+              img.style.transition = 'transform 0.5s ease-out';
+            }
+            if (content) {
+              content.style.transform = 'translateZ(0px)';
+              content.style.transition = 'transform 0.5s ease-out';
+            }
+          });
+        });
+      })();
+    </script>
+<script>
+      (function(){function init(){if(!window.gsap||!window.ScrollTrigger)return;gsap.registerPlugin(ScrollTrigger);var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)return;var cards=gsap.utils.toArray('#collection .fade-card');if(cards.length){gsap.fromTo(cards,{x:function(i){return[-260,0,240][i]||0;},y:function(i){return[-80,120,-80][i]||0;},rotate:function(i){return[-14,0,14][i]||0;},scale:0.86,autoAlpha:0.4},{x:0,y:0,rotate:0,scale:1,autoAlpha:1,stagger:0.05,ease:'none',scrollTrigger:{trigger:'#collection',start:'top 80%',end:'top 20%',scrub:1}});}gsap.fromTo('#collection [data-scroll-word]',{y:'6vh',scale:1.04},{y:'-4vh',scale:0.99,ease:'none',scrollTrigger:{trigger:'#collection',start:'top bottom',end:'bottom top',scrub:1}});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
+    </script>
+<script>
+      (function(){function init(){if(!window.gsap||!window.ScrollTrigger)return;gsap.registerPlugin(ScrollTrigger);var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)return;
+
+      /* Parallax background layers on scroll */
+      gsap.to('#bgLayer',{yPercent:18,ease:'none',scrollTrigger:{trigger:'#cinematic',start:'top top',end:'bottom top',scrub:1}});
+
+      /* Integration cards staggered reveal with 3D tilt-in */
+      gsap.utils.toArray('#integration .fade-card').forEach(function(c,i){gsap.fromTo(c,{y:60,rotateX:12,autoAlpha:0,transformPerspective:900},{y:0,rotateX:0,autoAlpha:1,duration:0.9,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 88%'}});});
+
+      /* Craft strip headline parallax drift */
+      gsap.to('#craft .reveal-line',{yPercent:-15,ease:'none',scrollTrigger:{trigger:'#craft',start:'top bottom',end:'bottom top',scrub:1}});
+
+      /* Manifesto words progressive reveal */
+      var words=gsap.utils.toArray('#noema-manifesto span[style*="font-weight:800"]');
+      if(words.length){gsap.fromTo(words,{autoAlpha:0.12,y:'0.4em'},{autoAlpha:1,y:'0em',ease:'none',stagger:0.4,scrollTrigger:{trigger:'#noema-manifesto',start:'top 70%',end:'center center',scrub:1}});}
+
+      /* Board giant word parallax */
+      gsap.to('#noema-board h2',{yPercent:-14,ease:'none',scrollTrigger:{trigger:'#noema-board',start:'top bottom',end:'bottom top',scrub:1}});
+      gsap.utils.toArray('#noema-board article').forEach(function(a,i){gsap.fromTo(a,{y:70,autoAlpha:0},{y:0,autoAlpha:1,duration:0.8,ease:'power3.out',delay:i*0.08,scrollTrigger:{trigger:'#noema-board',start:'top 75%'}});});
+
+      /* Support giant word parallax + cards */
+      gsap.to('#noema-support h2',{yPercent:-12,ease:'none',scrollTrigger:{trigger:'#noema-support',start:'top bottom',end:'bottom top',scrub:1}});
+      gsap.utils.toArray('#noema-support article').forEach(function(a,i){gsap.fromTo(a,{y:90,rotateX:8,autoAlpha:0,transformPerspective:900},{y:0,rotateX:0,autoAlpha:1,duration:0.9,ease:'power3.out',delay:i*0.1,scrollTrigger:{trigger:'#noema-support',start:'top 72%'}});});
+
+      /* Footer fade-up */
+      gsap.fromTo('footer > div',{y:40,autoAlpha:0},{y:0,autoAlpha:1,duration:0.8,ease:'power2.out',scrollTrigger:{trigger:'footer',start:'top 90%'}});
+
+      /* Micro-interactions: magnetic nav + button hover */
+      var mag=document.querySelectorAll('nav a, nav button, #craft a, #noema-support button, footer a');
+      mag.forEach(function(el){el.style.willChange='transform';el.style.display=el.style.display||'inline-flex';el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var mx=(e.clientX-r.left-r.width/2)/r.width;var my=(e.clientY-r.top-r.height/2)/r.height;gsap.to(el,{x:mx*6,y:my*4,duration:0.4,ease:'power2.out'});});el.addEventListener('mouseleave',function(){gsap.to(el,{x:0,y:0,duration:0.5,ease:'elastic.out(1,0.4)'});});});
+
+      /* Dot row hover pulse */
+      document.querySelectorAll('#dotRow span').forEach(function(d){d.addEventListener('mouseenter',function(){gsap.to(d,{scale:1.8,duration:0.3,ease:'back.out(2)'});});d.addEventListener('mouseleave',function(){gsap.to(d,{scale:1,duration:0.3});});});
+      }if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
+    </script>
+<script type="module" src="/src/main.tsx"></script>
+</body></html>

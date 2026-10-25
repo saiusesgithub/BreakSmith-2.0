@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">BreakSmith 2.0 mark</title>
+  <desc id="desc">A luminous pink shield surrounded by three orbital rings on a dark background.</desc>
+  <defs>
+    <radialGradient id="bg"><stop stop-color="#301b29"/><stop offset="1" stop-color="#0a0a0c"/></radialGradient>
+    <linearGradient id="pink" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ffe3ef"/><stop offset=".52" stop-color="#f5b8d0"/><stop offset="1" stop-color="#c26a97"/></linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <ellipse cx="64" cy="64" rx="51" ry="22" fill="none" stroke="#c26a97" stroke-opacity=".28" transform="rotate(-31 64 64)"/>
+  <ellipse cx="64" cy="64" rx="49" ry="19" fill="none" stroke="#f5b8d0" stroke-opacity=".42" transform="rotate(31 64 64)"/>
+  <ellipse cx="64" cy="64" rx="47" ry="18" fill="none" stroke="#ffe3ef" stroke-opacity=".22" transform="rotate(88 64 64)"/>
+  <path d="M64 28 91 39v23c0 18-11 30-27 39C48 92 37 80 37 62V39Z" fill="none" stroke="#f5b8d0" stroke-opacity=".55" stroke-width="6" filter="url(#glow)"/>
+  <path d="M64 28 91 39v23c0 18-11 30-27 39C48 92 37 80 37 62V39Z" fill="#170f17" stroke="url(#pink)" stroke-width="3" stroke-linejoin="round"/>
+  <path d="m50 65 10 10 19-23" fill="none" stroke="url(#pink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="24" cy="45" r="2" fill="#ffe3ef"/><circle cx="101" cy="83" r="2" fill="#ffe3ef"/>
+</svg>
